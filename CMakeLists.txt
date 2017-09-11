@@ -310,7 +310,7 @@ endif()
 #
 if (BUILDDOC)
   # Add a target to generate API documentation with Doxygen
-  find_package (Doxygen REQUIRED)
+  find_package (Doxygen 1.8.11 REQUIRED)
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/doxy/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
   if (BUILDSWIGJAVA)
       configure_file (${CMAKE_CURRENT_SOURCE_DIR}/doxy/Doxyfile.java.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile-java @ONLY)
@@ -330,7 +330,7 @@ if (BUILDDOC)
   # Currently, the per-module documentation for python is generated from the
   # python2 modules.
   if(BUILDSWIGPYTHON)
-    find_package (Sphinx REQUIRED)
+    find_package (Sphinx 1.3.6 REQUIRED)
     configure_file (${CMAKE_CURRENT_SOURCE_DIR}/doxy/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/pydoc/conf.py @ONLY)
     configure_file (${CMAKE_CURRENT_SOURCE_DIR}/doxy/index.rst ${CMAKE_CURRENT_BINARY_DIR}/pydoc/index.rst COPYONLY)
     add_custom_target (pydoc ALL
@@ -350,8 +350,8 @@ if (BUILDDOC)
 
   # Check if Yuidoc is installed and add target for API documentation
   if(BUILDSWIGNODE)
-    find_package(Yuidoc REQUIRED)
-    add_custom_target(jsdoc ALL
+    find_package (Yuidoc 0.10.2 REQUIRED)
+    add_custom_target (jsdoc ALL
       COMMAND ${CMAKE_SOURCE_DIR}/doxy/doxygen2jsdoc/docgen.js -m upm -i xml -o jsdoc -t ${CMAKE_CURRENT_SOURCE_DIR}/src -g ../../
       COMMAND ${YUIDOC_EXECUTABLE} -C --no-sort --helpers ${CMAKE_SOURCE_DIR}/doxy/node/generators/yuidoc/helper.js --themedir ${CMAKE_SOURCE_DIR}/doxy/node/generators/yuidoc/tmpl -o html/node jsdoc/yuidoc/upm
       COMMAND ${CMAKE_SOURCE_DIR}/doxy/doxygen2jsdoc/tolower.js -i html/node
